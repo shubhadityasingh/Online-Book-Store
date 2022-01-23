@@ -1,0 +1,36 @@
+{% extends "layout_login.html" %} {% block content %}
+<div class="content-section">
+    <form method="POST" action="" style="padding: 20px 20px 20px 20px">
+        {{ form.hidden_tag() }}
+
+        <fieldset class="form-group">
+            <legend class="bottom-border mb-4">Reset Password</legend>
+
+            <div class="col-md-8">
+                {% with messages=get_flashed_messages(with_categories=true) %}
+                {% if messages %} {% for category,message in messages %}
+                <div class="alert alert-{{ category }}">{{message}}</div>
+                {% endfor %} {% endif %} {% endwith %} 
+            </div>
+
+            <div class="form-group">
+                {{ form.email.label(class="form-control-label") }} {% if
+                form.email.errors %} {{ form.email(class="form-control form-control-lg
+                is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.email.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                {% else %} {{ form.email(class="form-control form-control-lg") }} {%
+                endif %}
+            </div>
+        </fieldset>
+        <br />
+        <button class="btn btn-lg btn-success btn-block" type="submit">
+            Request Password Reset
+        </button>
+    </form>
+</div>
+{% endblock content %}

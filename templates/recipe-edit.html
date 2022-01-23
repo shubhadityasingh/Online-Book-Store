@@ -1,0 +1,125 @@
+{% extends "maker_editor.html" %}
+<!-- {% block title %}Index{% endblock %} -->
+<!-- {% block head %}
+  {{ super() }}
+  <style type="text/css">
+    .important { color: #336699; }
+  </style>
+{% endblock %} -->
+{% set rec = recipe %}
+
+{% block content1 %}
+<div class="RecipeName" style=" text-align: center; padding-top: 1px; padding-bottom: 1px; margin-bottom: 20px; ">
+    <h2>{{res.Title}}</h2>
+  </div>
+  
+    
+  
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+  
+  
+  <!--======================================================================================================-->
+  
+  
+  <div class="row" style="margin-top: -20px;">
+    <div class="col-md-11" style="padding-left: 70px;">
+      <div class="card" style=" text-align: center; height: 250px; margin-bottom: 20px; box-shadow: none;">
+        
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~RECIPE PICTURE~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+  
+  
+        <div class="RecipePic" style=" text-align: center;  padding-top: 5px; padding-bottom: 5px; margin: 10px 15px 15px 15px;">
+          <img src={{res.img_link}} alt="some food idk" width="50%">
+        </div>
+    
+  
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+      </div>
+    </div>
+  </div>  <!--for the row tag-->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~RECIPE DESCRIPTION~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+  
+  <div class="row" style="margin-top: 240px;">
+    <div class="col" style="padding-right: 37px; padding-left: 30px; margin-top: -20px; ">
+      <div class="card" style="margin-bottom: 20px; box-shadow: none;">
+<hr>
+        <h3 style=" text-align: center; padding-bottom: 10px; padding-top: 10px;">Description:</h3>
+        
+        
+        <div class="Details" style="text-align: center; ">
+          <p style="margin-left: 10px; margin-right: 10px; padding-top: 20px; font-size: 20px;">
+            Prep Time: {{res.prep_time}} &nbsp; Yield: {{res.Yields}}
+          </p>
+        </div>
+      </div>
+  
+  
+    </div>
+  
+  </div>  <!--for the row tag-->
+  
+  
+  
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+  
+ 
+  
+  <div class="row" style="margin-top: 25px;">
+    <div class="col" style="padding-right: 37px; margin-top: -35px; padding-left: 30px;">
+      <div class="card" style="margin-bottom: 20px; box-shadow: none;"><hr>
+        <h3 style="text-align: center; padding-bottom: 10px; padding-top: 10px;">Ingredients:</h3>
+        <div style=" font-size: 20px; text-align: left; margin-left: 35px; margin-right: 10px; ">
+
+      
+  
+          <ol style="font-size: 17px; padding-bottom: 20px;">
+            {%for i in kop%} 
+  
+              <li>{{i}}</li> 
+
+            
+            
+            {%endfor%} 
+          </ol>
+        
+       </div>
+     </div>
+    </div>
+  </div>
+  
+  
+  
+
+
+
+
+
+
+  <div class="row" style="margin-top: -5px;">
+    <div class="col" style="padding-right: 37px; padding-left: 30px;">
+      <div class="card" style="margin-top: -15px; margin-bottom: 40px;  box-shadow: none;">
+  <hr>
+        <h3 style="text-align: center; padding-bottom: 10px; padding-top: 10px;">Steps:</h3>
+        <div style=" font-size: 20px; text-align: left; margin-left: 35px; margin-right: 10px;">
+  
+            <ol style="font-size: 17px; padding-bottom: 20px;">
+                {%for i in kop1%} 
+      
+                  <li>{{i}}</li>
+                {%endfor%} 
+            </ol> 
+    
+    <hr>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+
+ 
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~RECIPE NAME~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+  
+  
+  
+{% endblock %}

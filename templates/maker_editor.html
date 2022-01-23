@@ -1,0 +1,904 @@
+<!DOCTYPE html>                                                         <!-- FOR RECIPE MAKER -->
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <title>Recipe Maker and Editor</title>
+
+  <!-- Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
+  <!-- Icons -->
+  <link rel="stylesheet" href="{{url_for('static',filename='nucleo.css')}}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>                                                       <!-- FOR CHART.JS   -->
+  <link rel="stylesheet" href="{{url_for('static',filename='all.min.css')}}" type="text/css">
+  <!-- Page plugins -->
+  <!-- Argon CSS -->
+  <link rel="stylesheet" href="{{url_for('static',filename='argon_final.css')}}" type="text/css">
+
+  <!--  NEW ICONS  -->
+  <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="{{url_for('static',filename='pe-icon-7-stroke.css')}}" rel="stylesheet" />
+ 
+
+<script src="{{url_for('static',filename='editor_script.js')}}" type="text/javascript"></script>                  <!-- for tabs -->
+
+
+<script type="text/javascript"  src="{{url_for('static', filename='recto43.js')}}"></script>
+<!-- <script type="text/javascript"  src="{{url_for('.static', filename='pop2.js')}}"></script> -->
+
+
+<style>
+  * {
+      font-family: sans-serif;}
+
+      #myprofile:hover,#logout:hover {
+  background-color: #516DC5 !important;
+  color: #fff !important;
+}
+
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #8392EA;
+  color: white;
+  border-color: #8392EA;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #5E72E4 !important ;
+  color: white !important;
+  border-color: #5E72E4 !important;
+}
+.tab button {
+  background-color: white ;
+  color: black;
+}
+.file-upload {
+  display: inline-flex;
+  align-items: center;
+  font-size: 15px;
+}
+
+.file-upload__input {
+  display: none;
+}
+
+.file-upload__button {
+  -webkit-appearance: none;
+  background: #009879;
+  border: 2px solid #00745d;
+  border-radius: 4px;
+  outline: none;
+  padding: 0.5em 0.8em;
+  margin-right: 15px;
+  color: #ffffff;
+  font-size: 1em;
+  font-family: "Quicksand", sans-serif;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.file-upload__button:active {
+  background: #00745d;
+}
+
+.file-upload__label {
+  max-width: 250px;
+  font-size: 0.95em;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  font-family: "Quicksand", sans-serif;
+}
+
+</style>
+
+
+</head>
+
+<body>
+  <!-- Sidenav -->
+  <nav class="sidenav navbar navbar-vertical  fixed-left  navbar-expand-xs navbar-light bg-white" id="sidenav-main">
+    <div class="scrollbar-inner">
+      <!-- Brand -->
+      <div class="sidenav-header  align-items-center" style="margin-left: -20px; margin-right: -20px; margin-top: 40px; margin-bottom: 0px;">
+        <a class="" href="javascript:void(0)" >
+          <img src="{{url_for('static',filename='logo1.jpeg')}}" class="" alt="..."  >                                         <!-- LOGO     -->
+        </a>
+      </div>
+      <div class="navbar-inner">
+        <!-- Collapse -->
+        <div class="collapse navbar-collapse" id="sidenav-collapse-main">
+          <!-- Nav items -->
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="/dashboard">
+                <i class="pe-7s-graph text-primary" style="font-size:20px"></i>
+
+                <span class="nav-link-text">Dashboard</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/progress">
+                <i class="pe-7s-graph1 text-green" style="font-size:20px"></i>
+
+                <span class="nav-link-text">Your Progress</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/calculate">
+                <i class="pe-7s-calculator text-orange" style="font-size:20px"></i>
+                <span class="nav-link-text">Calculators</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/mealplan">
+                <i class="pe-7s-note2 text-primary" style="font-size:20px"></i>
+                <span class="nav-link-text">Meal Plans</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/recipe">
+                <i class="pe-7s-news-paper text-yellow" style="font-size:20px"></i>
+                <span class="nav-link-text">Discover Recipes</span>
+              </a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link active" href="/editormaker">
+                <i class="pe-7s-news-paper text-default" style="font-size:20px"></i>
+                <span class="nav-link-text">Recipes Maker</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/myrecipes">
+                <i class="pe-7s-ribbon text-orange" style="font-size:20px"></i>
+                <span class="nav-link-text">My Recipes</span>
+              </a>
+            </li>
+            <!--
+            <li class="nav-item">
+              <a class="nav-link" href="examples/login.html">
+                <i class="ni ni-key-25 text-info"></i>
+                <span class="nav-link-text">Login</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="examples/register.html">
+                <i class="ni ni-circle-08 text-pink"></i>
+                <span class="nav-link-text">Register</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="examples/upgrade.html">
+                <i class="ni ni-send text-dark"></i>
+                <span class="nav-link-text">Upgrade</span>
+              </a>
+            </li>-->
+          </ul>
+          
+        </div>
+      </div>
+    </div>
+  </nav>
+  <!-- Main content -->
+  <div class="main-content" id="panel">
+    <!-- Topnav -->
+    <nav class="navbar navbar-top navbar-expand navbar-dark bg-primary border-bottom">
+      <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+
+
+
+          <!-- Search form -->
+          <form class="navbar-search navbar-search-light form-inline mr-sm-3" id="navbar-search-main">
+            <div class="form-group mb-0">
+              <div class="input-group input-group-alternative input-group-merge">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fa fa-search"></i></span>
+                </div>
+                <input class="form-control" placeholder="Search" type="text">
+              </div>
+            </div>
+            <button type="button" class="close" data-action="search-close" data-target="#navbar-search-main" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </form>
+
+          <!-- Navbar links -->
+          <ul class="navbar-nav align-items-center  ml-md-auto">
+            <li class="nav-item d-xl-none">
+              <!-- Sidenav toggler -->
+              <div class="pr-3 sidenav-toggler sidenav-toggler-dark" data-action="sidenav-pin" data-target="#sidenav-main" style="margin-right: 200px;">
+                <div class="sidenav-toggler-inner">
+                  <i class="sidenav-toggler-line"></i>
+                  <i class="sidenav-toggler-line"></i>
+                  <i class="sidenav-toggler-line"></i>
+                </div>
+              </div>
+            </li>
+            <li class="nav-item d-sm-none">
+              <a class="nav-link" href="#" data-action="search-show" data-target="#navbar-search-main">
+                <i class="ni ni-zoom-split-in"></i>
+              </a>
+            </li>
+            
+          </ul>
+          <ul class="navbar-nav align-items-center  ml-auto ml-md-0 ">
+            
+<!--                      Profile                -->
+
+            <li class="nav-item dropdown">
+              <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <div class="media align-items-center">
+                  
+                    
+                  
+                  <div class="media-body  ml-2  d-none d-lg-block">
+                    <span class="mb-0 text-sm  font-weight-bold" id="myprofile" style="color: #777777; padding-right: 1em; padding-top: 0.8em; padding-bottom: 0.8em;padding-left: 1em;border-radius: 10rem; background-color: #fff; transition: 0.3s;">My Profile</span>
+                  </div>
+                </div>
+              </a>
+              <div class="dropdown-menu  dropdown-menu-right " style="margin-top: 10px; width: 300px;">
+                <div class="dropdown-header noti-title">
+                  <h6 class="text-overflow m-0">Your current details:</h6>
+                </div>
+                <div class="dropdown-item">
+                  <i class="pe-7s-timer" style="font-size: 22px; color: #F9B38F;"></i>
+                  <span style="font-size: 15px;">Weight:&nbsp;{{wn[0]}}</span>
+                </div>
+                <div class="dropdown-item">
+                  <i class="pe-7s-user" style="font-size: 22px; color: #C16D87;"></i>
+                  <span style="font-size: 15px;">Height:&nbsp;{{wn[2]}}</span>
+                </div>
+                <div class="dropdown-item">
+                  <i class="pe-7s-star" style="font-size: 22px; color: #335E81;"></i>
+                  <span style="font-size: 15px;">BMI:&nbsp;{{wn[1]}}</span>
+                </div>
+                
+                <div class="dropdown-divider" style="font-size: 15px;"></div>
+                <a href="/calculate" class="dropdown-item">
+                  <i class="pe-7s-info" style="font-size: 20px;"></i>
+                  <span>User calculator to update details!</span>
+                </a>
+              </div>
+            </li>
+
+
+<!--         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~        -->
+
+
+            <li class="nav-item dropdown">
+
+              <a class="nav-link pr-0" href="/" >
+                <div class="media align-items-center">
+                  
+                  <div class="media-body  ml-2  d-none d-lg-block">
+                    <span class="mb-0 text-sm  font-weight-bold" id="logout" style="color: #777777; padding-right: 1em; padding-top: 0.8em; padding-bottom: 0.8em;
+    padding-left: 1em;
+
+    border-radius: 10rem; background-color: #fff;  transition: 0.3s;">Logout</span>            <!-- LOG OUT HERE -->
+                  </div>
+                </div>
+              </a>
+              
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- Header -->
+    <!-- Header -->
+    <div class="header bg-primary pb-6">
+      <div class="container-fluid">
+        <div class="header-body"  style="padding-left: 15px;">
+          <div class="row align-items-center py-4">
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Page content -->
+    <div class="container-fluid mt--6">
+      <div class="row">
+        <div class="col">
+          <div class="card">
+          
+
+          <div class="card-header border-0">
+              <h3 class="mb-0">Recipe Editor and Maker</h3>
+          </div>
+
+          <div class="card-body">
+
+
+            <div class="container">   
+
+<!-- editor btn btn-primary 
+  maker btn btn-primary -->
+
+
+<div class="tab" style="text-align: center; margin-bottom: 30px;">
+      <button class="tablinks btn btn-secondary " style="width: 48%; display: inline;  " onclick="openTab(event, 'editor-form')" id="{{active0}}">Editor</button>
+      <button class="tablinks btn btn-secondary"  style="width: 48%; display: inline;" onclick="openTab(event, 'maker-form')" id="{{active1}}">Maker</button>
+</div>
+
+
+<div id="editor-form" class="tabcontent">
+      <div class="editor-form ">
+       <form action="/recipe_show" method="POST">    
+   
+         <div >
+           <label for="ck1" style="padding-right: 20px; display: inline;">
+           <b>
+            Recipe Name
+           
+           </b>
+           </label>
+           <input type="text" class="form-control" style="width: 30%; display: inline;"  id="A" name="recipe_name" value="{{rec}}">
+           <div id="recipename">
+
+          </div>
+         </div>
+           <div>
+            <button class="btn btn-outline-primary" type="submit" style="margin-top: 20px;">Submit</button>
+           </div>
+           <br><br>
+        </form>
+      
+      <!-- <div class="container">
+        <div class="row">
+              <div class="control-group" id="fields">
+                  <label class="control-label" for="field1">Nice Multiple Form Fields</label>
+                  <!-- <div class="controls"> 
+                      <form role="form" autocomplete="off"> -->
+                          <!-- <div class="entry input-group col-xs-3">
+                              <input class="form-control" name="fields[]" type="text" placeholder="Type something" />
+                            <span class="input-group-btn">
+                                  <button class="btn btn-success btn-add" type="button">
+                                      <span class="glyphicon glyphicon-plus"></span>
+                                  </button>
+                              </span>
+                          </div>
+                      <!-- </form> -->
+                  <!-- <br>
+                  <small>Press <span class="glyphicon glyphicon-plus gs"></span> to add another form field :)</small>
+                  </div> -->
+
+              <!-- </div>
+        </div>
+      </div>  --><div>
+
+        {% block content1 %}
+
+        {% endblock %}  
+
+               </div>
+
+
+
+
+
+
+
+
+
+
+
+
+      <form action="/recipe_editor" method="POST">    
+    
+          <div class="input_fields_wrap"  style="margin-bottom: 20px;">
+         <!-- <b><b></b> -->
+        <button class="add_field_button btn btn-secondary btn-sm" style="margin-bottom: 10px;">Add More Ingredients</button>
+        <div style=" margin-bottom: 20px;">
+        <span style="display:inline-block; color: red; ">
+        <input class="form-control" style="width: 100%;" type="text" name="mytext[]"></span>
+      <span style="display:inline-block; color: black; margin: 10px 26px; ">
+        <label for="mkl">Amount</label>
+        <input style="outline: 0; border-width: 0 0 2px; width:90px; border-color: #CFCFCF;" type="text" name="mytext[]" id="mkl">
+         
+    
+         <select style="outline: 0; border-width: 0 0 0px;  border-color: #CFCFCF;" name="mytext[]" id="cars">
+          <option value="Cups">Cups</option>
+          <option value="ml">ml</option>
+          <option value="gm">gm</option>
+          <option value="lbs">lbs</option>
+          <option value="pcs">pcs</option>
+        </select>
+      </span>
+        </div>
+      </div>
+        
+    
+        
+         <div class="input_fields_wrap1" style="margin-bottom: 20px;">
+          <button class="add_field_button1 btn btn-secondary btn-sm" style="margin-bottom: 10px;">Add More Steps</button>
+          <div style=" margin-bottom: 20px;"><textarea rows="3" type="text" class="form-control" style="width: 30%;" name="mytext2[]"></textarea></div>
+        
+        </div>
+    
+        <div class="" id="jk" style="margin-bottom: 20px;">
+          <label for="ck2">
+            Total Time
+          </label>
+          <input type="text" class="form-control" style="width: 20%;"  id="mk3" name="Time">
+        </div>
+        <div class="" id="jk" style="margin-bottom: 20px;">
+          <label for="ck2">
+            Servings
+          </label>
+          <input type="text" class="form-control" style="width: 20%;" id="mk4" name="serve">
+        </div>
+       
+        <br>
+        
+      
+      <br>
+      <div class="" id="jk">
+        <label for="ck2">
+          What's new?
+        </label>
+        <textarea rows="3" type="text" class="form-control" style="width: 40%;" id="ck2" name="difference" required></textarea>
+        </div>
+
+        <br>
+
+      <div class="" id="jk">
+        <label for="ck2">
+          <input type="checkbox" id="check" name="check" style="margin-right: 10px;"  />Publish this Recipe for others to see?
+        </label>
+      </div>
+
+
+      <br>
+    
+    
+      <button type="submit" class="btn btn-primary" name="bt1"  >
+       Edit a recipe  
+      </button>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    
+    <!-- </div> -->
+    
+            
+      
+     </form>
+  </div>
+</div>    <!-- for tabcontent -->
+
+<div id="maker-form" class="tabcontent">
+  <div class="maker-form">
+    <form action="/recipe_maker" method="POST" enctype="multipart/form-data">   
+      <div style="margin-bottom: 30px;">
+        <label for="ck1" style="padding-right: 20px; display: inline;">
+          <b>
+           Recipe Name
+           </b>
+          </label>
+        <input type="text" class="form-control" style="width: 30%; display: inline;" id="A" name="recipe_name">
+        <!-- <div id="recipename">
+
+        </div> -->
+      </div>
+
+
+      <!-- <div class="container">
+        <div class="row">
+              <div class="control-group" id="fields">
+                  <label class="control-label" for="field1">Nice Multiple Form Fields</label>
+                  <!-- <div class="controls"> 
+                      <form role="form" autocomplete="off"> -->
+                          <!-- <div class="entry input-group col-xs-3">
+                              <input class="form-control" name="fields[]" type="text" placeholder="Type something" />
+                            <span class="input-group-btn">
+                                  <button class="btn btn-success btn-add" type="button">
+                                      <span class="glyphicon glyphicon-plus"></span>
+                                  </button>
+                              </span>
+                          </div>
+                      <!-- </form> -->
+                  <!-- <br>
+                  <small>Press <span class="glyphicon glyphicon-plus gs"></span> to add another form field :)</small>
+                  </div> -->
+
+              <!-- </div>
+        </div>
+      </div>  --> 
+
+      <div class="input_fields_wrap" style="margin-bottom: 20px;">
+        <!-- <b><b></b> -->
+        <button class="add_field_button btn btn-secondary btn-sm" style="margin-bottom: 10px;">Add More Ingredients</button>
+        <div style=" margin-bottom: 20px;">
+        <span style="display:inline-block; color: red; ">
+        <input class="form-control" style="width: 100%;" type="text" name="mytext[]"></span>
+        <span style="display:inline-block; color: black; margin: 10px 26px; ">
+        <label for="mkl">Amount</label>
+        <input style="outline: 0; border-width: 0 0 2px; width:90px; border-color: #CFCFCF;" type="text" name="mytext[]" id="mkl">
+         
+
+         <select style="outline: 0; border-width: 0 0 0px;  border-color: #CFCFCF;" name="mytext[]" id="cars">
+          <option value="Cups">Cups</option>
+          <option value="ml">ml</option>
+          <option value="gm">gm</option>
+          <option value="lbs">lbs</option>
+          <option value="pcs">pcs</option>
+        </select>
+      </span>
+        </div>
+      </div>
+        
+
+        
+         <div class="input_fields_wrap1" style="margin-bottom: 20px;">
+          <button class="add_field_button1 btn btn-secondary btn-sm" style="margin-bottom: 10px;">Add More Steps</button>
+          <div style=" margin-bottom: 20px;"><textarea rows="3" type="text" class="form-control" style="width: 30%; margin-bottom: 20px;" name="mytext2[]"></textarea></div>
+        
+         </div>
+      
+      <!-- <br> -->
+     <div class="" id="jk" style="margin-bottom: 20px;">
+        <label for="ck2">
+          Time
+        </label>
+        <input type="text"  class="form-control" style="width: 20%;"  id="mk3" name="Time">
+      </div>
+      <div class="" id="jk" style="margin-bottom: 20px;">
+        <label for="ck2">
+          Servings
+        </label>
+        <input type="text"  class="form-control" style="width: 20%;"  id="mk4" name="serve">
+      </div>
+      <div class="" id="jk" style="margin-bottom: 20px;">
+        <label for="ck2">
+          Image link 
+        </label>
+        <input type="url"  class="form-control" style="width: 50%;"  id="mk5" name="img">
+      </div><br>
+
+
+
+
+
+
+<div class="file-upload">
+  <input class="file-upload__input" type="file" name="myFile" id="myFile" multiple>
+  <button class="file-upload__button" type="button">Choose File(s)</button>
+  <span class="file-upload__label"></span>
+</div>
+
+<!--                 script for image upload                   -->
+
+<script>
+ Array.prototype.forEach.call(
+  document.querySelectorAll(".file-upload__button"),
+  function(button) {
+    const hiddenInput = button.parentElement.querySelector(
+      ".file-upload__input"
+    );
+    const label = button.parentElement.querySelector(".file-upload__label");
+    const defaultLabelText = "No file(s) selected";
+
+    // Set default text for label
+    label.textContent = defaultLabelText;
+    label.title = defaultLabelText;
+
+    button.addEventListener("click", function() {
+      hiddenInput.click();
+    });
+
+    hiddenInput.addEventListener("change", function() {
+      const filenameList = Array.prototype.map.call(hiddenInput.files, function(
+        file
+      ) {
+        return file.name;
+      });
+
+      label.textContent = filenameList.join(", ") || defaultLabelText;
+      label.title = label.textContent;
+    });
+  }
+);
+
+</script>
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+
+
+
+
+
+
+
+
+      <br>
+      
+    
+
+      <div class="" id="jk" style="margin-bottom: 20px;">
+        <label for="ck2">
+          <input type="checkbox" id="check" name="check" style="margin-right: 10px;"  />Publish this Recipe for others to see?
+        </label>
+      </div>
+
+
+      <br>
+
+    <button type="submit" class="btn btn-primary" name="bt2"  >
+        Generate a new recipe
+      </button>
+
+  </div>
+</div>
+      
+ </form>
+  
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+          </div>
+        </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!-- Argon Scripts -->
+
+  <!-- Core -->
+   <script src="{{url_for('static',filename='jquery.min.js')}}"></script>
+  <script src="{{url_for('static',filename='bootstrap.bundle.min.js')}}"></script>
+  <script src="{{url_for('static',filename='js.cookie.js')}}"></script>
+  <script src="{{url_for('static',filename='jquery.scrollbar.min.js')}}"></script>
+  <script src="{{url_for('static',filename='jquery-scrollLock.min.js')}}"></script>
+  <!-- Optional JS -->
+  <script src="{{url_for('static',filename='Chart.min.js')}}"></script>
+  <script src="{{url_for('static',filename='Chart.extension.js')}}"></script>
+  <!-- Argon JS -->
+  <script src="{{url_for('static',filename='argon.js')}}"></script>
+</body>
+
+    <!-- <button class="open-button" onclick="openForm()">Open Form</button> -->
+    <!-- <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <h4 class="modal-title w-100 font-weight-bold">Edit grecipe</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div> -->
+        <!-- <form action="/recipe_edit">
+        <div class="modal-body mx-3">
+          <div class="md-form mb-5">
+            <i class="fas fa-envelope prefix grey-text"></i>
+            <input type="email" id="defaultForm-email" class="form-control validate">
+            <label data-error="wrong" data-success="right" for="defaultForm-email">Amount</label>
+          </div>
+  
+          <div class="md-form mb-4">
+            <i class="fas fa-lock prefix grey-text"></i>
+            <input type="password" id="defaultForm-pass" class="form-control validate">
+            <label data-error="wrong" data-success="right" for="defaultForm-pass">Ingredients</label>
+          </div>
+  
+        </div>
+        <div class="modal-footer d-flex justify-content-center">
+          <button class="btn btn-default">Submit</button>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+  
+  <div class="text-center">
+    <a href="" class="btn btn-default btn-rounded mb-4 btn btn-primary" data-toggle="modal" data-target="#modalLoginForm">Launch
+      Edit recipe</a>
+  </div>
+
+  <script type="text/javascript">
+  var g= "{{bkl}}";
+  // console.log(g)
+
+
+
+  </script> -->
+<script>
+  $(document).ready(function(){
+      $("#A").on("input",function(e){
+          $("#recipename").empty();
+          $.ajax({
+              method:"post",
+              url:"/livesearch",
+              data:{text:$("#A").val()},
+              success:function(res){
+                  // var data = "<datalist >";
+                  // $.each(res,function(index,value){
+                  //     data += "<option>"+value +"</option>";
+                  // });
+                  // data += "</datalist>";
+                  // $("#recipename").html(data);
+
+                  var data = '<ul class="list-unstyled">';
+                  $.each(res,function(index,value){
+                      data += '<li class="mnk">'+ value  +"</li>";
+                  });
+                  data += "</ul>";
+                  $("#recipename").html(data);
+              }
+          });
+      });
+      $(document).on('click', 'li', function () {
+        $("#A").val($(this).text());
+        $("#recipename").fadeOut();
+
+        
+
+      });
+  });
+</script> 
+
+<!--<script>
+
+$(".editor-form").hide();
+
+
+$(".editor").click(function(){
+  $(".maker-form").hide();
+  $(".editor-form").show();
+
+$(".editor").css("background", "#5e72e4");
+$(".editor").css("color", "#fff");
+$(".maker").css("background", "#fff");
+$(".maker").css("color", "#000");
+});
+
+$(".maker").click(function(){
+  $(".maker-form").show();
+  $(".editor-form").hide();
+$(".maker").css("background", "#5e72e4");
+$(".maker").css("color", "#fff");
+$(".editor").css("background", "#fff");
+$(".editor").css("color", "#000");
+});
+
+// $(".btn").click(function(){
+//   $(".input").val("");
+// });
+</script>-->
+
+<script type="text/javascript">
+  
+function openTab(evt, cityName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+
+
+</script>
+
+<script type="text/javascript">
+  
+  $(document).ready(function() {
+    var max_fields      = 25; //maximum input boxes allowed
+    var max_fields_1   = 15; //maximum input boxes allowed
+    var max_fields_2   = 15; //maximum input boxes allowed
+    // {{bkl}}
+
+    
+    var wrapper         = $(".input_fields_wrap"); //Fields wrapper
+    var add_button      = $(".add_field_button"); //Add button ID
+    var add_button1     = $(".add_field_button1"); //Add button ID
+    var wrapper1        = $(".input_fields_wrap1"); //Fields wrapper
+    var add_button2    = $(".add_field_button2"); //Add button ID
+    var wrapper2       = $(".input_fields_wrap2"); //Fields wrapper
+
+    var g= "{{bkl}}";
+    console.log(g)
+
+
+
+   
+    var x1 = 1; //initlal text box count
+    var x2 = 1;
+    var x3 = 1;
+  
+  
+   $(add_button).click(function(e){ 
+     //on add input button click
+    //  var x1=1;
+        e.preventDefault();
+        if(x1 < max_fields){ //max input box allowed
+          // var a=document.getElementById("ck4");
+          // a.value = x1;
+
+
+          
+  
+         //text box increment
+            $(wrapper).append('<div style=" margin-bottom: 20px;"><span style="display:inline-block; color: red; "><input class="form-control" style="width: 100%;" type="text" name="mytext[]"></span><span style="display:inline-block; color: black; margin:10px 30px; ">   <label for="mkl2">Amount</label>  <input style="outline: 0; border-width: 0 0 2px; width:90px; border-color: #CFCFCF;" type="text" name="mytext[]" id="mkl2">  <select style="outline: 0; border-width: 0 0 0px;  border-color: #CFCFCF;" name="mytext[]" id="cars"><option value="Cups">Cups</option><option value="ml">ml</option><option value="gm">gm</option><option value="lbs">lbs</option><option value="pcs">pcs</option></select></span> <a href="#" class="remove_field">  Remove </a></div>'); //add input box
+            x1++; 
+    }
+    });
+    
+    
+
+
+    $(add_button1).click(function(e){
+       //on add input button click
+      //  var x2=1;
+      e.preventDefault();
+      if(x2 < max_fields_1){ //max input box allowed
+
+       //text box increment
+          $(wrapper1).append('<div style=" margin-bottom: 20px;"><textarea rows="3" type="text" class="form-control" style="width: 30%; display:inline;" name="mytext2[]"></textarea><a style="display:inline; padding-left:20px;  margin-bottom: 20px;" href="#" class="remove_field">Remove</a></div>'); //add input box
+          x2++; 
+  }
+  });
+  $(add_button2).click(function(e){
+       //on add input button click
+      //  var x2=1;
+      e.preventDefault();
+      if(x3 < max_fields_2){ //max input box allowed
+
+       //text box increment
+          $(wrapper2).append('<div><input type="text" name="mytext3[]"/><a href="#" class="remove_field">Remove</a></div>'); //add input box
+          x3++; 
+  }
+  });
+
+   
+    $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+      
+       
+    e.preventDefault(); 
+    $(this).parent('div').remove(); 
+    x--;
+    })
+
+    $(wrapper1).on("click",".remove_field", function(e){ //user click on remove text
+      
+       
+      e.preventDefault(); 
+      $(this).parent('div').remove(); 
+      x--;
+      })
+
+    $(wrapper2).on("click",".remove_field", function(e){ //user click on remove text
+      
+       
+        e.preventDefault(); 
+        $(this).parent('div').remove(); 
+        x--;
+        })
+});
+  
+</script>
+</html>

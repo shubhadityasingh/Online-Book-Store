@@ -1,0 +1,201 @@
+{% extends "discover_recipes.html" %}
+
+{% block title %}Recipe Details{% endblock %}
+<!-- {% block head %}
+  {{ super() }}
+  <style type="text/css">
+    .important { color: #336699; }
+  </style>
+{% endblock %} -->
+{% block content2 %}
+<style> 
+           * {
+      font-family: sans-serif;}
+
+      
+
+
+            .scroll { 
+                overflow:scroll; height:150px;
+                overflow: auto; 
+
+            } 
+</style> 
+<div class="row" style="float: center; margin-top: 20px; " >
+
+        <div class="col">
+          <div class="card">
+          
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~RECIPE NAME~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+  
+  
+  <div class="RecipeName" style=" text-align: center; padding-top: 15px; padding-bottom: 10px;">
+
+    <h2>{{res.Title}}</h2>
+    
+  </div>
+    
+  
+  
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+      </div>
+    </div>
+  </div>
+  
+  
+  <!--======================================================================================================-->
+  
+  
+  <div class="row" >
+    <div class="col-md-10" style="padding-left: 250px;">
+      <div class="card" style=" text-align: center;">
+        
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~RECIPE PICTURE~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+  
+  
+        <div class="RecipePic" style=" text-align: center;  padding-top: 5px; padding-bottom: 5px; margin: auto;">
+          <img src={{res.img_link}} alt="some food idk">
+        </div>
+    
+  
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+      </div>
+    </div>
+  </div>  <!--for the row tag-->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~RECIPE DESCRIPTION~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+  
+  <div class="row">
+    <div class="col-md-6" style=" padding-left: 30px; ">
+      <div class="card" >
+
+        <h3 style=" text-align: center; padding-bottom: 10px; padding-top: 10px;">Description:</h3>
+        
+
+        <div class="Details" style="text-align: center; height: 200px;">
+          <p style="margin-left: 10px; margin-right: 10px; padding-top: 20px; font-size: 20px;">
+            Prep Time: {{res.prep_time}} <br> Yield: {{res.Yields}}
+          </p>
+        </div>
+      </div>
+  
+  
+    </div>
+  
+
+
+
+
+
+
+<!--~~~~~~~~~             FOR SIMILAR USER RECIPES ~~~~~~~~~~~~~~~~-->
+
+<div class="col-md-6" style=" padding-right: 37px;">
+      <div class="card" >
+
+        <h3 style=" text-align: center; padding-top: 10px;">User Variations:</h3>
+        
+        <div class="scroll" style=" margin-bottom: 10px; ">
+        <div class="Details" style="text-align: left;  ">
+          <form action="/var_page" method="POST">
+          <p style="margin-left: 10px; margin-right: 10px; padding-top: 0px; font-size: 20px; margin-bottom: 10px; ">
+            <ul>
+
+            {%for k in diff %} 
+
+              <button name="list" value="{{k}}" style="background: none; color: inherit; border: none; padding: 0; font: inherit; cursor: pointer; outline: inherit;"><li style="font-size: 20px;">{{k}}</li></button> <br>
+              <input type="hidden" id="index" name="index" value="{{ res.Title }}">
+          
+            {%endfor%}
+  
+            </ul>
+          </p>
+        </form>
+        </div>
+      </div>
+    </div>
+  
+  
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+  </div>  <!--for the row tag-->
+  
+  
+  
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+  
+  
+
+
+  
+  <div class="row" >
+    <div class="col" style="padding-right: 37px;  padding-left: 30px;">
+      <div class="card" >
+        <h3 style="text-align: center; padding-bottom: 10px; padding-top: 10px;">Ingredients:</h3>
+        <p>
+  
+          <ul style="font-size: 20px;">
+            {%for i in kop%} 
+  
+              <li>{{i}}</li> 
+
+<!--             
+            <li>Mix the milk and vinegar and let it sit for a minute or two (you’re making “buttermilk” here).</li>
+            <li>Whisk the dry ingredients together. Whisk the egg, milk, and melted butter into the dry ingredients until just combined.</li>
+            <li>Heat a nonstick pan over medium heat. Melt a little smear of butter in the pan (essential for giving a yummy golden brown crust).</li>
+            <li>Pour about 1/3 cup of batter into the hot skillet and spread it flat-like (it will be pretty thick). Arrange a few blueberries on top. Cook until you see little bubbles on top and the edges starting to firm up. Flip and cook for another 1-2 minutes until the pancakes are sky-high fluffy and cooked through.</li>
+            <li>Serve with butter and maple syrup. But honestly, sometimes I just like to eat these plain. YUM, YUM, YUM.</li>
+             -->
+            {%endfor%} 
+          </ul>
+        </p>
+      </div>
+    </div>
+  
+  
+  
+  </div> <!--for the second row-->
+  
+  
+
+
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+  
+  
+
+
+
+  <div class="row" >
+    <div class="col" style="padding-right: 37px; padding-left: 30px;">
+      <div class="card" style=" padding-bottom: 20px;">
+  
+        <h3 style="text-align: center; padding-bottom: 10px; padding-top: 10px;">Steps:</h3>
+        <div style=" font-size: 20px; text-align: left;padding-right: 20px;">
+          <ul style="font-size: 20px;">
+          {%for j in kop2%} 
+
+           <li>{{j}}</li>
+          
+          {%endfor%}
+        </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+
+  
+  </div>
+  
+  </div>
+{% endblock %}

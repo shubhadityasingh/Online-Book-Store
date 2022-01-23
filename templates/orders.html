@@ -1,0 +1,119 @@
+{% extends 'layout.html' %} {% block content %}
+<h1 class="title">My Orders</h1>
+
+<div>
+    {% with messages = get_flashed_messages() %} {% if messages %} {% for message
+    in messages %}
+    <h1 class="alert alert-warning alert-dismissible display-1 text-center" style="font-size: 20px">
+        {{message}}
+    </h1>
+    {% endfor %} {% endif %} {% endwith %}
+</div>
+
+{% for i in range(count) %}
+<div class="card col-md-8" style="
+    background: #ffffff;
+    padding: 10px 20px;
+    border: 1px solid #dddddd;
+    border-radius: 3px;
+    margin-bottom: 20px;
+    margin-left: 250px;
+  ">
+    <div style="display: table">
+        <div style="float: left">
+            <img src="{{orders_list[i].image}}"
+                onerror="this.onerror=null;this.src='https://cima-afrique.org/cima/images/not-available.png'; this.style='height:150px; width:200px; margin-left:-40px;';"
+                alt="No Image Found" style="height: 150px; width: 120px" />
+        </div>
+
+        <div style="margin-top: 20px; float: left; margin-left: 20px">
+            <h2 class="mr-2" style="font-size: 25px">{{orders_list[i].book_name}}</h2>
+            <br />
+            <h3 style="font-size: 18px">{{orders_list[i].author}}</h3>
+        </div>
+
+        {% if orders_list[i].rating == 0 %}
+
+        <div class="dropdown" style="float: right; margin-left: 20px; margin-bottom:10px">
+            <button class="btn btn-dark text-success" style="
+          background: transparent;
+          box-shadow: 0px 0px 0px transparent;
+          border: 1px solid black;
+          text-shadow: 0px 0px 0px transparent;
+        ">
+                Rate the seller
+            </button>
+
+            <div class="dropdown-content">
+                <a href="{{url_for('set_rating', rating = 5, buy_log_id = orders_list[i].id)}}">5
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-star-fill" viewBox="0 0 16 16">
+                        <path
+                            d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                    </svg>
+                    | Excellent!</a>
+                <a href="{{url_for('set_rating', rating = 4, buy_log_id = orders_list[i].id)}}">4
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-star-fill" viewBox="0 0 16 16">
+                        <path
+                            d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                    </svg>
+                    | Good</a>
+                <a href="{{url_for('set_rating', rating = 3, buy_log_id = orders_list[i].id)}}">3
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-star-fill" viewBox="0 0 16 16">
+                        <path
+                            d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                    </svg>
+                    | Average</a>
+                <a href="{{url_for('set_rating', rating = 2, buy_log_id = orders_list[i].id)}}">2
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-star-fill" viewBox="0 0 16 16">
+                        <path
+                            d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                    </svg>
+                    | Pretty Bad</a>
+                <a href="{{url_for('set_rating', rating = 1, buy_log_id = orders_list[i].id)}}">1
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-star-fill" viewBox="0 0 16 16">
+                        <path
+                            d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                    </svg>
+                    | Absolute Worst!!</a>
+            </div>
+        </div>
+{% else %}
+        <div style="margin-top: 30px; float: right; margin-left: 20px">
+            <span class="badge bg-dark text-success" style='font-size: 20px;'>Rated <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2" viewBox="0 0 16 16">
+                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+              </svg></span>
+        </div>
+
+        {% endif %}
+        <!-- <div style='position:absolute; margin-top: 50px; float:right; right:40px; margin-bottom:80px'>
+            <h3 style="font-size: 18px; text-align:right;">₹ {{orders_list[i].price}}</h3>
+        </div> -->
+        <!-- <div style=' margin-top: 80px; float:right; right:50px;'>
+            <button type="button" class="btn btn-outline-danger"> Remove from cart</button>
+        </div> -->
+    </div>
+</div>
+{% endfor %}
+
+<!-- {% if count != 0 %}
+    <div style="position: absolute; right:250px">
+        <h2 style = 'font-size: 28px;'>Subtotal of all books: <b>₹{{total_price}}</b></h2>
+    </div>
+    <br>
+    <br>
+    <div class='row'>
+        <div class='row col2'>
+            <a href={{url_for('empty_cart')}}><button type="submit" class="btn btn-primary" style='background-color:#1CBBA1; border-width: 0;' name="bt2">Empty the Cart</button></a>
+        </div>
+        <div class='row col2'>
+            <a href={{url_for('checkout_cart')}}><button type="submit" class="btn btn-primary" style="font-size: 24px;  border-width: 0;" name="bt2">Proceed to Buy</button></a>
+        </div>
+    </div>
+{% endif %} -->
+
+{% endblock content %}
